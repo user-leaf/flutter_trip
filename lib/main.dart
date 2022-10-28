@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_trip/navigator/tab_navigator.dart';
+import 'package:flutter_trip/test/test_listview.dart';
 import 'package:flutter_trip/test/test_shared_preferences.dart';
 
 void main() {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: TestSharedPreferences(),
+      home: TestListView(),
     );
   }
 }
