@@ -7,7 +7,7 @@ class TestListView extends StatefulWidget {
 
 class _TestListViewState extends State<TestListView> {
   final title = '列表';
-  List cities = [
+  List<String> cities = [
     'a',
     'b',
     'c',
@@ -22,16 +22,46 @@ class _TestListViewState extends State<TestListView> {
     'l',
   ];
 
+  ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    _scrollController.addListener(() {
+      if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
+        _loadData();
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
       ),
-      body: ListView(
-        children: _getListView(),
+      body: RefreshIndicator(
+        child: ListView(
+          children: _getListView(),
+          controller: _scrollController,
+        ),
+        onRefresh: _handleRefresh,
       ),
     );
+  }
+
+  Future<Null> _handleRefresh() async {
+    await Future.delayed(Duration(seconds: 2));
+    setState(() {
+      cities = cities.reversed.toList();
+    });
+    return null;
   }
 
   _getListView() {
@@ -53,5 +83,14 @@ class _TestListViewState extends State<TestListView> {
         ),
       ),
     );
+  }
+
+  void _loadData() async {
+    await Future.delayed(Duration(seconds: 2));
+    setState(() {
+      List<String> list = List<String>.from(cities);
+      list.addAll(cities);
+      cities = list;
+    });
   }
 }
