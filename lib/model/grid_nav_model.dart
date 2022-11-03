@@ -1,4 +1,4 @@
-import 'package:flutter_trip/pages/search_page.dart';
+import 'common_model.dart';
 
 /// 首页网格卡片模型
 class GridNavModel {
@@ -14,6 +14,14 @@ class GridNavModel {
       flight: GridNavItem.fromJson(json['flight']),
       travel: GridNavItem.fromJson(json['travel']),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'hotel': hotel,
+      'flight': flight,
+      'travel': travel,
+    };
   }
 }
 
@@ -46,5 +54,17 @@ class GridNavItem {
       item3: CommonModel.fromJson(json['item3']),
       item4: CommonModel.fromJson(json['item4']),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'startColor': startColor,
+      'endColor': endColor,
+      'mainItem': mainItem,
+      'item1': item1,
+      'item2': item2,
+      'item3': item3,
+      'item4': item4,
+    };
   }
 }

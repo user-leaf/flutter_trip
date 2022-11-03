@@ -1,7 +1,7 @@
 import 'package:flutter_trip/model/config_model.dart';
 import 'package:flutter_trip/model/sales_box_model.dart';
-import 'package:flutter_trip/pages/search_page.dart';
 
+import 'common_model.dart';
 import 'grid_nav_model.dart';
 
 class HomeModel {
@@ -12,13 +12,14 @@ class HomeModel {
   final GridNavModel? gridNav;
   final SalesBoxModel? salesBox;
 
-  HomeModel(
-      {this.config,
-      this.bannerList,
-      this.localNavList,
-      this.subNavList,
-      this.gridNav,
-      this.salesBox});
+  HomeModel({
+    this.config,
+    this.bannerList,
+    this.localNavList,
+    this.subNavList,
+    this.gridNav,
+    this.salesBox,
+  });
 
   factory HomeModel.fromJson(Map<String, dynamic> json) {
     var bannerListJson = json['bannerList'] as List;
@@ -41,5 +42,16 @@ class HomeModel {
       gridNav: GridNavModel.fromJson(json['gridNav']),
       salesBox: SalesBoxModel.fromJson(json['salesBox']),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'config': config,
+      'bannerList': bannerList,
+      'localNavList': localNavList,
+      'subNavList': subNavList,
+      'gridNav': gridNav,
+      'salesBox': salesBox,
+    };
   }
 }

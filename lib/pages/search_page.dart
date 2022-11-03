@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../model/common_model.dart';
+
 class SearchPage extends StatefulWidget {
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -46,21 +48,5 @@ class _SearchPageState extends State<SearchPage> {
         ],
       ),
     );
-  }
-}
-
-class CommonModel {
-  final String icon;
-  final String title;
-  final String url;
-  final String statusBarColor;
-  final bool hideAppBar;
-
-  CommonModel(
-      this.icon, this.title, this.url, this.statusBarColor, this.hideAppBar);
-
-  factory CommonModel.fromJson(Map<String, dynamic> json) {
-    return CommonModel(json['icon'], json['title'], json['url'],
-        json['statusBarColor'], json['hideAppBar']);
   }
 }
