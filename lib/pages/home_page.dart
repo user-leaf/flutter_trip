@@ -1,10 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_trip/dao/home_dao.dart';
+import 'package:flutter_trip/model/common_model.dart';
 import 'package:flutter_trip/model/home_model.dart';
-import 'package:flutter_trip/widget/grid_nav.dart';
+import 'package:flutter_trip/widget/local_nav.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;
 
@@ -23,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   ];
 
   String resultString = "";
+  List<CommonModel>? localNavList = [];
 
   @override
   void initState() {
@@ -54,16 +54,15 @@ class _HomePageState extends State<HomePage> {
     //   });
     // });
 
-    // try {
-    HomeModel model = await HomeDao.fetch();
-    setState(() {
-      resultString = jsonEncode(model);
-    });
-    // } catch (e) {
-    //   setState(() {
-    //     resultString = e.toString();
-    //   });
-    // }
+    try {
+      HomeModel model = await HomeDao.fetch();
+      setState(() {
+        // resultString = jsonEncode(model);
+        localNavList = model.localNavList;
+      });
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
@@ -98,13 +97,17 @@ class _HomePageState extends State<HomePage> {
                       pagination: SwiperPagination(),
                     ),
                   ),
-                  GridNav(
-                    gridNavModel: null,
-                    name: 'Jack',
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
+                    child: LocalNav(
+                      localNavList: localNavList!,
+                    ),
                   ),
                   Container(
                     height: 800,
-                    child: Text(resultString),
+                    child: ListTile(
+                      title: Text('resultString'),
+                    ),
                   )
                 ],
               ),
