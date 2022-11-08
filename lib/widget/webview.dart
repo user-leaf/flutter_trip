@@ -3,17 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
-const CATCH_URLS = [
-  'm.ctrip.com/',
-  'm.ctrip.com/html5/',
-  'm.ctrip.com/html5'
-];
+const CATCH_URLS = ['m.ctrip.com/', 'm.ctrip.com/html5/', 'm.ctrip.com/html5'];
 
 class WebView extends StatefulWidget {
   final String url;
-  final String statusBarColor;
+  final String? statusBarColor;
   final String title;
-  final bool hideAppBar;
+  final bool? hideAppBar;
   final bool backForbid;
 
   const WebView({
@@ -43,32 +39,32 @@ class _WebViewSate extends State<WebView> {
     _onUrlChanged = webviewReference.onUrlChanged.listen((String url) {});
     _onStateChanged =
         webviewReference.onStateChanged.listen((WebViewStateChanged state) {
-          switch (state.type) {
-            case WebViewState.shouldStart:
-              break;
-            case WebViewState.startLoad:
-              if (_isToMain(state.url) && !exiting) {
-                if (widget.backForbid) {
-                  webviewReference.launch(widget.url);
-                } else {
-                  Navigator.pop(context);
-                  exiting = true;
-                }
-              }
-              break;
-            case WebViewState.finishLoad:
-              break;
-            case WebViewState.abortLoad:
-              break;
+      switch (state.type) {
+        case WebViewState.shouldStart:
+          break;
+        case WebViewState.startLoad:
+          if (_isToMain(state.url) && !exiting) {
+            if (widget.backForbid) {
+              webviewReference.launch(widget.url);
+            } else {
+              Navigator.pop(context);
+              exiting = true;
+            }
           }
-        });
+          break;
+        case WebViewState.finishLoad:
+          break;
+        case WebViewState.abortLoad:
+          break;
+      }
+    });
     _onHttpError =
         webviewReference.onHttpError.listen((WebViewHttpError error) {});
   }
 
   _isToMain(String url) {
     bool contain = false;
-    for(final value in CATCH_URLS){
+    for (final value in CATCH_URLS) {
       if (url.endsWith(value)) {
         contain = true;
         break;
@@ -79,16 +75,16 @@ class _WebViewSate extends State<WebView> {
 
   @override
   void dispose() {
-    super.dispose();
     _onUrlChanged.cancel();
     _onStateChanged.cancel();
     _onHttpError.cancel();
     webviewReference.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    String statusBarColorStr = widget.statusBarColor;
+    String statusBarColorStr = widget.statusBarColor ?? 'ffffff';
     Color backButtonColor;
     if (statusBarColorStr == 'ffffff') {
       backButtonColor = Colors.black;
@@ -123,18 +119,23 @@ class _WebViewSate extends State<WebView> {
   }
 
   _appBar(Color backgroundColor, Color backButtonColor) {
-    if (widget.hideAppBar) {
+    if (widget.hideAppBar ?? false) {
       return Container(
         height: 30,
         color: backgroundColor,
       );
     }
     return Container(
+      color: backgroundColor,
+      padding: EdgeInsets.fromLTRB(0, 40, 0, 10),
       child: FractionallySizedBox(
         widthFactor: 1,
         child: Stack(
           children: [
             GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
               child: Container(
                 margin: EdgeInsets.only(left: 10),
                 child: Icon(

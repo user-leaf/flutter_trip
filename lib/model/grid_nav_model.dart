@@ -2,11 +2,11 @@ import 'common_model.dart';
 
 /// 首页网格卡片模型
 class GridNavModel {
-  final GridNavItem? hotel;
-  final GridNavItem? flight;
-  final GridNavItem? travel;
+  final GridNavItem hotel;
+  final GridNavItem flight;
+  final GridNavItem travel;
 
-  GridNavModel({this.hotel, this.flight, this.travel});
+  GridNavModel({required this.hotel, required this.flight, required this.travel});
 
   factory GridNavModel.fromJson(Map<String, dynamic> json) {
     return GridNavModel(
@@ -26,22 +26,22 @@ class GridNavModel {
 }
 
 class GridNavItem {
-  final String? startColor;
-  final String? endColor;
-  final CommonModel? mainItem;
-  final CommonModel? item1;
-  final CommonModel? item2;
-  final CommonModel? item3;
-  final CommonModel? item4;
+  final String startColor;
+  final String endColor;
+  final CommonModel mainItem;
+  final CommonModel item1;
+  final CommonModel item2;
+  final CommonModel item3;
+  final CommonModel item4;
 
   GridNavItem({
-    this.startColor,
-    this.endColor,
-    this.mainItem,
-    this.item1,
-    this.item2,
-    this.item3,
-    this.item4,
+    required this.startColor,
+    required this.endColor,
+    required this.mainItem,
+    required this.item1,
+    required this.item2,
+    required this.item3,
+    required this.item4,
   });
 
   factory GridNavItem.fromJson(Map<String, dynamic> json) {
