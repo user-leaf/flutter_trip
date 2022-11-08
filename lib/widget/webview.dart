@@ -6,18 +6,18 @@ import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 const CATCH_URLS = ['m.ctrip.com/', 'm.ctrip.com/html5/', 'm.ctrip.com/html5'];
 
 class WebView extends StatefulWidget {
-  final String url;
+  final String? url;
   final String? statusBarColor;
-  final String title;
+  final String? title;
   final bool? hideAppBar;
   final bool backForbid;
 
   const WebView({
     super.key,
     required this.url,
-    required this.statusBarColor,
+    this.statusBarColor,
     required this.title,
-    required this.hideAppBar,
+    this.hideAppBar,
     this.backForbid = false,
   });
 
@@ -45,7 +45,7 @@ class _WebViewSate extends State<WebView> {
         case WebViewState.startLoad:
           if (_isToMain(state.url) && !exiting) {
             if (widget.backForbid) {
-              webviewReference.launch(widget.url);
+              webviewReference.launch(widget.url!);
             } else {
               Navigator.pop(context);
               exiting = true;
@@ -101,7 +101,7 @@ class _WebViewSate extends State<WebView> {
           ),
           Expanded(
             child: WebviewScaffold(
-              url: widget.url,
+              url: widget.url!,
               withZoom: true,
               withLocalStorage: true,
               hidden: true,
@@ -150,7 +150,7 @@ class _WebViewSate extends State<WebView> {
               right: 0,
               child: Center(
                 child: Text(
-                  widget.title,
+                  widget.title ?? "",
                   style: TextStyle(color: backButtonColor, fontSize: 20),
                 ),
               ),

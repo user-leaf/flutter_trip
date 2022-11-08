@@ -2,9 +2,9 @@ import 'common_model.dart';
 
 /// 首页网格卡片模型
 class GridNavModel {
-  final GridNavItem hotel;
-  final GridNavItem flight;
-  final GridNavItem travel;
+  final GridNavItem? hotel;
+  final GridNavItem? flight;
+  final GridNavItem? travel;
 
   GridNavModel({required this.hotel, required this.flight, required this.travel});
 

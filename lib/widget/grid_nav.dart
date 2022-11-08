@@ -5,7 +5,7 @@ import 'package:flutter_trip/widget/webview.dart';
 
 ///网格卡片
 class GridNav extends StatelessWidget {
-  final GridNavModel gridNavModel;
+  final GridNavModel? gridNavModel;
 
   const GridNav({super.key, required this.gridNavModel});
 
@@ -24,20 +24,21 @@ class GridNav extends StatelessWidget {
   _gridNavItems(BuildContext context) {
     List<Widget> items = [];
     if (gridNavModel == null) return items;
-    if (gridNavModel.hotel != null) {
-      items.add(_gridNavItem(context, gridNavModel.hotel, true));
+    if (gridNavModel?.hotel != null) {
+      items.add(_gridNavItem(context, gridNavModel?.hotel, true));
     }
-    if (gridNavModel.flight != null) {
-      items.add(_gridNavItem(context, gridNavModel.flight, false));
+    if (gridNavModel?.flight != null) {
+      items.add(_gridNavItem(context, gridNavModel?.flight, false));
     }
-    if (gridNavModel.travel != null) {
-      items.add(_gridNavItem(context, gridNavModel.travel, false));
+    if (gridNavModel?.travel != null) {
+      items.add(_gridNavItem(context, gridNavModel?.travel, false));
     }
     return items;
   }
 
-  _gridNavItem(BuildContext context, GridNavItem gridNavItem, bool first) {
+  _gridNavItem(BuildContext context, GridNavItem? gridNavItem, bool first) {
     List<Widget> items = [];
+    if(gridNavItem == null) return null;
     items.add(_mainItem(context, gridNavItem.mainItem));
     items.add(_doubleItem(context, gridNavItem.item1, gridNavItem.item2));
     items.add(_doubleItem(context, gridNavItem.item3, gridNavItem.item4));
