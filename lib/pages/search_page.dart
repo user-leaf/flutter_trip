@@ -1,9 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-
-import '../model/common_model.dart';
+import 'package:flutter_trip/widget/search_bar.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -11,17 +7,6 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  String showResult = "";
-
-  var url =
-      Uri.http('www.devio.org', 'io/flutter_app/json/test_common_model.json');
-
-  Future<CommonModel> fetchPost() async {
-    final response = await http.get(url);
-    final result = jsonDecode(response.body);
-    return CommonModel.fromJson(result);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,23 +15,26 @@ class _SearchPageState extends State<SearchPage> {
       ),
       body: Column(
         children: [
-          InkWell(
-            onTap: () {
-              fetchPost().then((CommonModel value) {
-                setState(() {
-                  showResult =
-                      '请求结果: \nicon: ${value.icon} \ntitle: ${value.title} \nurl: ${value.url} \nstatusBarColor: ${value.statusBarColor} \nhideAppBar: ${value.hideAppBar}';
-                });
-              });
+          SearchBar(
+            enabled: true,
+            hideLeft: true,
+            searchBarType: SearchBarType.normal,
+            hint: '哈哈',
+            defaultText: '123',
+            leftButtonClick: () {
+              Navigator.pop(context);
             },
-            child: Text(
-              '点我',
-              style: TextStyle(fontSize: 20),
-            ),
+            rightButtonClick: () {},
+            speakClick: () {},
+            inputBoxClick: () {},
+            onChanged: _onTextChanged,
           ),
-          Text(showResult),
         ],
       ),
     );
+  }
+
+  _onTextChanged(String text) {
+
   }
 }
