@@ -53,20 +53,15 @@ class _HomePageState extends State<HomePage> {
             decoration: BoxDecoration(
                 color:
                     Color.fromARGB((appBarAlpha * 255).toInt(), 255, 255, 255)),
-            child: GestureDetector(
-              onTap: () {
-                _jumpToSearch;
-              },
-              child: SearchBar(
+            child:  SearchBar(
                   searchBarType: appBarAlpha > 0.2
                       ? SearchBarType.homeLight
                       : SearchBarType.home,
                   defaultText: SEARCH_BAR_DEFAULT_TEXT,
                   leftButtonClick: () {},
                   speakClick: _jumpToSpeak,
-                  inputBoxClick: () {}),
+                  inputBoxClick: _jumpToSearch),
             ),
-          ),
         ),
       ],
     );
@@ -80,14 +75,14 @@ class _HomePageState extends State<HomePage> {
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  CommonModel model = bannerList[index];
-                  return WebView(
-                    url: model.url,
-                    title: model.title,
-                    hideAppBar: model.hideAppBar,
-                  );
-                }));
+                CommonModel model = bannerList[index];
+                NavigatorUtil.push(
+                    context,
+                    WebView(
+                      url: model.url,
+                      title: model.title,
+                      hideAppBar: model.hideAppBar,
+                    ));
               },
               child: Image.network(
                 bannerList[index].icon,
@@ -102,9 +97,14 @@ class _HomePageState extends State<HomePage> {
   get _jumpToSpeak => null;
 
   get _jumpToSearch {
-    Future.delayed(Duration(milliseconds: 500), () {
-      NavigatorUtil.push(context, SearchPage(hideLeft: false));
-    });
+    // Future.delayed(Duration(milliseconds: 500), () {
+    //   NavigatorUtil.push(
+    //       context,
+    //       SearchPage(
+    //         hideLeft: false,
+    //         hint: SEARCH_BAR_DEFAULT_TEXT,
+    //       ));
+    // });
   }
 
   @override
