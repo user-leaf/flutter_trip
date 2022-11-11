@@ -5,6 +5,22 @@ import 'package:flutter_trip/utils/NavigatorUtil.dart';
 import 'package:flutter_trip/widget/search_bar.dart';
 import 'package:flutter_trip/widget/webview.dart';
 
+const TYPES = [
+  'channelgroup',
+  'channelgs',
+  'channelplane',
+  'channeltrain',
+  'cruise',
+  'district',
+  'food',
+  'hotel',
+  'huodong',
+  'shop',
+  'sight',
+  'ticket',
+  'travelgroup',
+];
+
 class SearchPage extends StatefulWidget {
   final bool hideLeft;
   final String? keyword;
@@ -33,18 +49,18 @@ class _SearchPageState extends State<SearchPage> {
       body: Column(
         children: [
           _appBar(),
-          MediaQuery.removePadding(
-            removeTop: true,
-            context: context,
-            child: Expanded(
-              flex: 1,
-              child: ListView.builder(
-                  itemCount: searchModel?.data?.length ?? 0,
-                  itemBuilder: (context, position) {
-                    return _item(position);
-                  }),
-            ),
-          ),
+          // MediaQuery.removePadding(
+          //   removeTop: true,
+          //   context: context,
+          //   child: Expanded(
+          //     flex: 1,
+          //     child: ListView.builder(
+          //         itemCount: searchModel?.data?.length ?? 0,
+          //         itemBuilder: (context, position) {
+          //           return _item(position);
+          //         }),
+          //   ),
+          // ),
 
           // InkWell(
           //   onTap: () {
@@ -75,6 +91,11 @@ class _SearchPageState extends State<SearchPage> {
           //   ),
           // ),
           // Text(showText),
+
+          Container(
+            child:
+                RichText(text: TextSpan(children: _title('我来自中国，我是中国人', '中国'))),
+          ),
         ],
       ),
     );
@@ -153,6 +174,13 @@ class _SearchPageState extends State<SearchPage> {
             border: Border(bottom: BorderSide(width: 0.3, color: Colors.grey))),
         child: Row(
           children: [
+            Container(
+              margin: EdgeInsets.all(1),
+              child: Image(
+                  height: 26,
+                  width: 26,
+                  image: AssetImage(_typeImage(item?.type))),
+            ),
             Column(
               children: [
                 Container(
@@ -170,5 +198,41 @@ class _SearchPageState extends State<SearchPage> {
         ),
       ),
     );
+  }
+
+  String _typeImage(String? type) {
+    if (type == null) return 'images/type_travelgroup.png';
+    String path = 'travelgroup';
+    for (String val in TYPES) {
+      if (type.contains(val)) {
+        path = val;
+        break;
+      }
+    }
+    return 'images/type_$path.png';
+  }
+
+  _title(String word, String keyword) {
+    // 'wordwoc' -> [, ord, oc]
+    List<TextSpan> spans = [];
+    TextStyle normalStyle = TextStyle(color: Colors.black);
+    TextStyle keywordStyle = TextStyle(color: Colors.orange);
+    String wordL = word.toLowerCase(), keywordL = keyword.toLowerCase();
+    List<String> arr = word.toLowerCase().split(keyword.toLowerCase());
+    int preIndex = 0;
+    for (int i = 0; i < arr.length; i++) {
+      if (i != 0) {
+        //搜索关键字高亮忽略大小写
+        preIndex = wordL.indexOf(keywordL, preIndex);
+        spans.add(TextSpan(
+            text: word.substring(preIndex, preIndex + keyword.length),
+            style: keywordStyle));
+      }
+      String val = arr[i];
+      if (val != null && val.length > 0) {
+        spans.add(TextSpan(text: val, style: normalStyle));
+      }
+    }
+    return spans;
   }
 }

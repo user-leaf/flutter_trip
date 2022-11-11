@@ -15,7 +15,7 @@ class SearchModel {
 
 class SearchItem {
   final String word; //xx酒店
-  final String type; //hotel
+  final String? type; //hotel
   final String price; //实时计价
   final String star; //豪华型
   final String zonename; //虹桥
