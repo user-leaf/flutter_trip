@@ -4,6 +4,8 @@ import 'package:flutter_trip/dao/home_dao.dart';
 import 'package:flutter_trip/model/common_model.dart';
 import 'package:flutter_trip/model/grid_nav_model.dart';
 import 'package:flutter_trip/model/home_model.dart';
+import 'package:flutter_trip/pages/search_page.dart';
+import 'package:flutter_trip/utils/NavigatorUtil.dart';
 import 'package:flutter_trip/widget/grid_nav.dart';
 import 'package:flutter_trip/widget/loading_container.dart';
 import 'package:flutter_trip/widget/local_nav.dart';
@@ -51,17 +53,21 @@ class _HomePageState extends State<HomePage> {
             decoration: BoxDecoration(
                 color:
                     Color.fromARGB((appBarAlpha * 255).toInt(), 255, 255, 255)),
-            child: SearchBar(
-                searchBarType: appBarAlpha > 0.2
-                    ? SearchBarType.homeLight
-                    : SearchBarType.home,
-                defaultText: SEARCH_BAR_DEFAULT_TEXT,
-                leftButtonClick: () {},
-                speakClick: _jumpToSpeak,
-                inputBoxClick: _jumpToSearch),
+            child: GestureDetector(
+              onTap: () {
+                _jumpToSearch;
+              },
+              child: SearchBar(
+                  searchBarType: appBarAlpha > 0.2
+                      ? SearchBarType.homeLight
+                      : SearchBarType.home,
+                  defaultText: SEARCH_BAR_DEFAULT_TEXT,
+                  leftButtonClick: () {},
+                  speakClick: _jumpToSpeak,
+                  inputBoxClick: () {}),
+            ),
           ),
         ),
-
       ],
     );
   }
@@ -95,7 +101,11 @@ class _HomePageState extends State<HomePage> {
 
   get _jumpToSpeak => null;
 
-  get _jumpToSearch => null;
+  get _jumpToSearch {
+    Future.delayed(Duration(milliseconds: 500), () {
+      NavigatorUtil.push(context, SearchPage(hideLeft: false));
+    });
+  }
 
   @override
   void initState() {

@@ -1,12 +1,14 @@
 ///搜索模型
-class SearchModel{
+class SearchModel {
+  String? keyword;
   final List<SearchItem> data;
 
   SearchModel({required this.data});
 
   factory SearchModel.fromJson(Map<String, dynamic> json) {
     var dataJson = json['data'] as List;
-    List<SearchItem> data = dataJson.map((e) => SearchItem.fromJson(e)).toList();
+    List<SearchItem> data =
+        dataJson.map((e) => SearchItem.fromJson(e)).toList();
     return SearchModel(data: data);
   }
 }
@@ -40,5 +42,4 @@ class SearchItem {
       url: json['url'],
     );
   }
-
 }
